@@ -1,9 +1,12 @@
 package jp.hkawabata.spring;
 
+import jp.hkawabata.spring.di.SampleB;
 import jp.hkawabata.spring.model.MyDictItem;
 import jp.hkawabata.spring.model.MyResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +17,17 @@ import java.util.Arrays;
 
 @RestController
 @EnableAutoConfiguration
+@ComponentScan // ここ以下のパッケージをスキャンしてComponentアノテーション付きのクラスをDIコンテナに登録
 public class MyApp {
+    @Autowired // DIコンテナに登録されたクラスのインスタンスを自動で注入
+    private SampleB sampleB;
 
     /**
      * @return Hello World
      */
     @RequestMapping("/")
     String home() {
-        return "Hello World!";
+        return "Hello World!" + sampleB.testDi();
     }
 
     /**
